@@ -1,13 +1,17 @@
 import streamlit as st
+import time
 
-st.set_page_config(page_title="看看你后面", layout="centered")
+# 设置页面样式：黑色背景，无标题栏
+st.set_page_config(page_title="你看看你后面", layout="centered")
 
-st.markdown("<h1 style='color:red; text-align:center;'>你看看你后面吧</h1>", unsafe_allow_html=True)
-st.markdown("---")
-
-# 注入 CSS 实现抖动效果
-shake_css = """
+# 自定义CSS：黑色背景 + 抖动红字
+custom_css = """
 <style>
+body {
+    background-color: black;
+    color: red;
+}
+
 @keyframes shake {
   0% { transform: translate(1px, 1px) rotate(0deg); }
   10% { transform: translate(-1px, -2px) rotate(-1deg); }
@@ -24,15 +28,28 @@ shake_css = """
 
 .shaky-text {
     color: red;
-    font-size: 22px;
+    font-size: 30px;
     font-weight: bold;
     animation: shake 0.5s infinite;
+    text-align: center;
+    margin-top: 200px;
 }
 </style>
 """
+st.markdown(custom_css, unsafe_allow_html=True)
 
-st.markdown(shake_css, unsafe_allow_html=True)
+# 四句话循环
+messages = [
+    "你看看你后面呢",
+    "你再看看你后面呢",
+    "看看你后面",
+    "好好的看看你后面吧！"
+]
 
-# 输出震动的红色文字
-for i in range(1, 1001):  # 1000 行，已经非常震撼
-    st.markdown(f"<div class='shaky-text'>{i}. 你看看你后面吧</div>", unsafe_allow_html=True)
+# 循环展示（你可以调整 range 的值，比如 100 表示重复很多次）
+placeholder = st.empty()
+
+for i in range(1000):
+    msg = messages[i % len(messages)]
+    placeholder.markdown(f"<div class='shaky-text'>{msg}</div>", unsafe_allow_html=True)
+    time.sleep(0.5)
